@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum0 - Design Considered</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            height: 100vh;
+        }
+        
+        .main-container {
+            width: 68.2%;
+            height: 100vh;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .nav-column {
+            width: 32%;
+            background-color: white;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+        }
+        
+        .content-column {
+            width: 68%;
+            background-color: white;
+            padding: 20px;
+        }
+        
+        .nav-column h2 {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .nav-column ul {
+            list-style-type: none;
+        }
+        
+        .nav-column li {
+            margin-bottom: 10px;
+        }
+        
+        .nav-column a {
+            color: black;
+            text-decoration: none;
+            padding: 8px 0;
+            display: block;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom-color 0.2s;
+        }
+        
+        .nav-column a:hover {
+            border-bottom-color: black;
+        }
+        
+        .content-column h1 {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .content-column p {
+            color: black;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <nav class="nav-column">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#design">Design</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content-column">
+            <h1>Sum0</h1>
+            <p>All things design considered.</p>
+            <p>This is a 2-column flex layout with the main container spanning 68.2% of the window width.</p>
+            <p>The navigation column takes up 32% of the flex container width, while the content area uses the remaining 68%.</p>
+            <p>The design features black text on a white background as specified.</p>
+            <p>This layout is responsive and will maintain the proper proportions across different screen sizes.</p>
+        </main>
+    </div>
+</body>
+</html>
