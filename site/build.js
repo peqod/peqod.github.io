@@ -1,5 +1,13 @@
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from "node:fs";
-import { join, basename, dirname, resolve } from "node:path";
+import {
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  rmSync,
+  copyFileSync,
+} from "node:fs";
+import { join, basename, dirname, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import matter from "gray-matter";
 import { marked } from "marked";
@@ -9,6 +17,12 @@ const repoRoot = resolve(here, "..");
 const publishedDir = join(repoRoot, "writing", "published");
 const siteDir = here;
 const categories = ["about", "projects", "log"];
+
+const imageExts = new Set([
+  ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".bmp", ".avif", ".ico",
+]);
+
+const skipDirs = new Set([".git", ".obsidian", "node_modules", "site", ".trash"]);
 
 const slugify = (s) =>
   s.toLowerCase().replace(/\.md$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -20,6 +34,66 @@ const fmtDate = (d) => {
   if (!d) return "";
   if (d instanceof Date) return d.toISOString().slice(0, 10);
   return String(d);
+};
+
+const buildImageIndex = () => {
+  const byBasename = new Map();
+  const byRelPath = new Map();
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (skipDirs.has(entry.name)) continue;
+      const p = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(p);
+      } else if (imageExts.has(extname(entry.name).toLowerCase())) {
+        const rel = p.slice(repoRoot.length + 1).replace(/\\/g, "/");
+        byRelPath.set(rel, p);
+        if (!byBasename.has(entry.name)) byBasename.set(entry.name, p);
+      }
+    }
+  };
+  walk(repoRoot);
+  return { byBasename, byRelPath };
+};
+
+const expandWikilinkEmbeds = (md) =>
+  md.replace(/!\[\[([^\]|]+?)(?:\|([^\]]+))?\]\]/g, (_, target, alt) => {
+    const t = target.trim();
+    const a = (alt || basename(t, extname(t))).trim();
+    return `![${a}](${encodeURI(t)})`;
+  });
+
+const resolveImage = (src, postSourceDir, imageIndex) => {
+  if (/^(https?:|data:|\/\/|#)/i.test(src)) return null;
+  const decoded = decodeURI(src.split("#")[0].split("?")[0]);
+  const tryRel = resolve(postSourceDir, decoded);
+  if (existsSync(tryRel) && imageExts.has(extname(tryRel).toLowerCase())) return tryRel;
+  const asRepoRel = decoded.replace(/^\/+/, "").replace(/\\/g, "/");
+  if (imageIndex.byRelPath.has(asRepoRel)) return imageIndex.byRelPath.get(asRepoRel);
+  const base = basename(decoded);
+  if (imageIndex.byBasename.has(base)) return imageIndex.byBasename.get(base);
+  return null;
+};
+
+const copyAndRewrite = (html, postSlug, postSourceDir, imageIndex) => {
+  const destDir = join(siteDir, "posts", "_assets", postSlug);
+  let copied = false;
+  const out = html.replace(/(<img\s+[^>]*?\bsrc=)"([^"]+)"/g, (match, prefix, src) => {
+    if (/^(https?:|data:)/i.test(src)) return match;
+    const abs = resolveImage(src, postSourceDir, imageIndex);
+    if (!abs) {
+      console.warn(`  image not found in vault: ${src}  (post: ${postSlug})`);
+      return match;
+    }
+    if (!copied) {
+      mkdirSync(destDir, { recursive: true });
+      copied = true;
+    }
+    const dest = join(destDir, basename(abs));
+    if (!existsSync(dest)) copyFileSync(abs, dest);
+    return `${prefix}"_assets/${postSlug}/${basename(abs)}"`;
+  });
+  return out;
 };
 
 const page = ({ title, body, depth }) => {
@@ -43,7 +117,7 @@ ${body}
 `;
 };
 
-const collectPosts = (cat) => {
+const collectPosts = (cat, imageIndex) => {
   const dir = join(publishedDir, cat);
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
@@ -51,13 +125,17 @@ const collectPosts = (cat) => {
     .map((f) => {
       const raw = readFileSync(join(dir, f), "utf8");
       const { data, content } = matter(raw);
+      const slug = slugify(f);
+      const expanded = expandWikilinkEmbeds(content);
+      const rendered = marked.parse(expanded);
+      const html = copyAndRewrite(rendered, slug, dir, imageIndex);
       return {
-        slug: slugify(f),
+        slug,
         sourceFile: f,
         category: cat,
         title: data.title || basename(f, ".md"),
         created: data.created || "",
-        html: marked.parse(content),
+        html,
         frontmatter: data,
       };
     })
@@ -129,9 +207,11 @@ ${sections}`;
 
 const main = () => {
   cleanGenerated();
+  const imageIndex = buildImageIndex();
+  console.log(`indexed ${imageIndex.byRelPath.size} image(s) in vault`);
   const byCat = {};
   for (const cat of categories) {
-    const posts = collectPosts(cat);
+    const posts = collectPosts(cat, imageIndex);
     byCat[cat] = posts;
     for (const p of posts) writePost(p);
     writeCategoryIndex(cat, posts);

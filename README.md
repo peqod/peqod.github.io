@@ -22,6 +22,18 @@ created: 2026-04-27
 
 `title` and `created` are read by the build. Other fields (`threads`, `language`, etc.) are ignored by the site.
 
+### Images
+
+Both Obsidian-native syntaxes work:
+
+```
+![[macintsh.gif]]              # wikilink embed (Obsidian default paste)
+![[macintsh.gif|small mac]]    # wikilink with custom alt
+![alt text](macintsh.gif)      # standard markdown
+```
+
+The build searches the whole vault for the referenced filename, copies it to `site/posts/_assets/<post-slug>/`, and rewrites the URL. Drop images anywhere in the vault (Obsidian's default paste lands them in `reference/attachments/`) — the build will find them by filename.
+
 ## Build
 
 Requires Node 18+.
