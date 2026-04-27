@@ -103,9 +103,24 @@ const copyAndRewrite = (html, postSlug, postSourceDir, imageIndex) => {
   return out;
 };
 
-const page = ({ title, body, depth }) => {
-  const cssPath = "../".repeat(depth) + "styles.css";
-  const homePath = "../".repeat(depth) + "index.html";
+const page = ({ title, body, depth, aside, activeCat }) => {
+  const rel = "../".repeat(depth);
+  const cssPath = rel + "styles.css";
+  const homePath = rel + "index.html";
+  const navLink = (cat) =>
+    `<a href="${rel}${cat}/index.html"${activeCat === cat ? ' class="active"' : ""}>${cat}</a>`;
+  const layout = aside
+    ? `<div class="layout">
+<aside>
+${aside}
+</aside>
+<main>
+${body}
+</main>
+</div>`
+    : `<main>
+${body}
+</main>`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -115,10 +130,15 @@ const page = ({ title, body, depth }) => {
 <link rel="stylesheet" href="${cssPath}">
 </head>
 <body>
-<header><a href="${homePath}">ontodesign</a></header>
-<main>
-${body}
-</main>
+<header>
+<a class="brand" href="${homePath}">ontodesign</a>
+<nav class="cats">
+${navLink("about")}
+${navLink("projects")}
+${navLink("log")}
+</nav>
+</header>
+${layout}
 </body>
 </html>
 `;
@@ -169,7 +189,27 @@ const cleanGenerated = () => {
   emptyDir(join(siteDir, "posts"));
 };
 
-const writePost = (post) => {
+const buildAside = (siblings, idx) => {
+  const items = siblings
+    .map(
+      (p, i) =>
+        `<li${i === idx ? ' class="current"' : ""}><a href="${p.slug}.html">${escapeHtml(p.title)}</a></li>`
+    )
+    .join("\n");
+  const cat = siblings[idx].category;
+  const prev = idx > 0 ? siblings[idx - 1] : null;
+  const next = idx < siblings.length - 1 ? siblings[idx + 1] : null;
+  const linkOrSpan = (p, label) =>
+    p ? `<a href="${p.slug}.html">${label}</a>` : `<span class="disabled">${label}</span>`;
+  return `<ul class="post-list">
+${items}
+</ul>
+<p class="postnav">
+${linkOrSpan(prev, "prev")} | <a href="../${cat}/index.html">home</a> | ${linkOrSpan(next, "next")}
+</p>`;
+};
+
+const writePost = (post, siblings, idx) => {
   const body = `<article>
 <h1>${escapeHtml(post.title)}</h1>
 ${post.created ? `<p class="meta">${escapeHtml(fmtDate(post.created))} &middot; <a href="../${post.category}/index.html">${post.category}</a></p>` : ""}
@@ -177,7 +217,13 @@ ${post.html}
 </article>`;
   writeFileSync(
     join(siteDir, "posts", `${post.slug}.html`),
-    page({ title: post.title, body, depth: 1 })
+    page({
+      title: post.title,
+      body,
+      depth: 1,
+      aside: buildAside(siblings, idx),
+      activeCat: post.category,
+    })
   );
 };
 
@@ -194,7 +240,7 @@ ${items || "<li><em>nothing here yet</em></li>"}
 </ul>`;
   writeFileSync(
     join(siteDir, cat, "index.html"),
-    page({ title: cat, body, depth: 1 })
+    page({ title: cat, body, depth: 1, activeCat: cat })
   );
 };
 
@@ -229,7 +275,7 @@ const main = () => {
   for (const cat of categories) {
     const posts = collectPosts(cat, imageIndex);
     byCat[cat] = posts;
-    for (const p of posts) writePost(p);
+    posts.forEach((p, i) => writePost(p, posts, i));
     writeCategoryIndex(cat, posts);
     console.log(`${cat}: ${posts.length} post(s)`);
   }
