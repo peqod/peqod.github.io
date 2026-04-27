@@ -15,7 +15,7 @@ import { marked } from "marked";
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const publishedDir = join(repoRoot, "writing", "published");
-const siteDir = here;
+const siteDir = join(repoRoot, "docs");
 const categories = ["about", "projects", "log"];
 
 const imageExts = new Set([
@@ -24,6 +24,7 @@ const imageExts = new Set([
 
 const skipDirs = new Set([".git", ".obsidian", "node_modules", ".trash"]);
 const skipRelDirs = new Set([
+  "docs",
   "site/posts",
   "site/about",
   "site/projects",
@@ -291,7 +292,9 @@ ${recentItems || "<p><em>nothing here yet</em></p>"}
 };
 
 const main = () => {
+  if (!existsSync(siteDir)) mkdirSync(siteDir, { recursive: true });
   cleanGenerated();
+  copyFileSync(join(here, "styles.css"), join(siteDir, "styles.css"));
   const imageIndex = buildImageIndex();
   console.log(`indexed ${imageIndex.byRelPath.size} image(s) in vault`);
   const byCat = {};
