@@ -22,7 +22,13 @@ const imageExts = new Set([
   ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".bmp", ".avif", ".ico",
 ]);
 
-const skipDirs = new Set([".git", ".obsidian", "node_modules", "site", ".trash"]);
+const skipDirs = new Set([".git", ".obsidian", "node_modules", ".trash"]);
+const skipRelDirs = new Set([
+  "site/posts",
+  "site/about",
+  "site/projects",
+  "site/log",
+]);
 
 const slugify = (s) =>
   s.toLowerCase().replace(/\.md$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -43,10 +49,11 @@ const buildImageIndex = () => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       if (skipDirs.has(entry.name)) continue;
       const p = join(dir, entry.name);
+      const rel = p.slice(repoRoot.length + 1).replace(/\\/g, "/");
       if (entry.isDirectory()) {
+        if (skipRelDirs.has(rel)) continue;
         walk(p);
       } else if (imageExts.has(extname(entry.name).toLowerCase())) {
-        const rel = p.slice(repoRoot.length + 1).replace(/\\/g, "/");
         byRelPath.set(rel, p);
         if (!byBasename.has(entry.name)) byBasename.set(entry.name, p);
       }
@@ -142,15 +149,24 @@ const collectPosts = (cat, imageIndex) => {
     .sort((a, b) => fmtDate(b.created).localeCompare(fmtDate(a.created)));
 };
 
-const cleanGenerated = () => {
-  for (const cat of categories) {
-    const d = join(siteDir, cat);
-    if (existsSync(d)) rmSync(d, { recursive: true, force: true });
-    mkdirSync(d, { recursive: true });
+const emptyDir = (dir) => {
+  if (!existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+    return;
   }
-  const postsDir = join(siteDir, "posts");
-  if (existsSync(postsDir)) rmSync(postsDir, { recursive: true, force: true });
-  mkdirSync(postsDir, { recursive: true });
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    rmSync(join(dir, entry.name), {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 100,
+    });
+  }
+};
+
+const cleanGenerated = () => {
+  for (const cat of categories) emptyDir(join(siteDir, cat));
+  emptyDir(join(siteDir, "posts"));
 };
 
 const writePost = (post) => {
