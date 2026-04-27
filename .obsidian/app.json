@@ -10,5 +10,6 @@
   "newLinkFormat": "shortest",
   "tabSize": 2,
   "showUnsupportedFiles": true,
-  "promptDelete": false
+  "promptDelete": false,
+  "alwaysUpdateLinks": true
 }

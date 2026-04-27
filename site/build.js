@@ -42,6 +42,16 @@ const fmtDate = (d) => {
   return String(d);
 };
 
+const excerpt = (html, max = 240) => {
+  const m = html.match(/<p>([\s\S]*?)<\/p>/);
+  if (!m) return "";
+  const text = m[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  return text.slice(0, max).replace(/\s+\S*$/, "") + "…";
+};
+
+let aboutLinkTarget = "about/index.html";
+
 const buildImageIndex = () => {
   const byBasename = new Map();
   const byRelPath = new Map();
@@ -103,24 +113,35 @@ const copyAndRewrite = (html, postSlug, postSourceDir, imageIndex) => {
   return out;
 };
 
-const page = ({ title, body, depth, aside, activeCat }) => {
+const navCats = ["projects", "log"];
+
+const buildSideNav = (byCat, { depth, activeCat, activeSlug }) => {
+  const rel = "../".repeat(depth);
+  const homePath = rel + "index.html";
+  const renderCat = (cat) => {
+    const posts = byCat[cat] || [];
+    const isOpen = activeCat === cat;
+    const items = posts
+      .map((p) => {
+        const isCurrent = activeCat === cat && activeSlug === p.slug;
+        return `<li${isCurrent ? ' class="current"' : ""}><a href="${rel}posts/${p.slug}.html">${escapeHtml(p.title)}</a></li>`;
+      })
+      .join("\n");
+    return `<details${isOpen ? " open" : ""}>
+<summary><a href="${rel}${cat}/index.html">${cat}</a></summary>
+<ul>
+${items || "<li><em>nothing here yet</em></li>"}
+</ul>
+</details>`;
+  };
+  return `<a class="brand" href="${homePath}">ontodesign</a>
+${navCats.map(renderCat).join("\n")}`;
+};
+
+const page = ({ title, body, depth, byCat, activeCat, activeSlug }) => {
   const rel = "../".repeat(depth);
   const cssPath = rel + "styles.css";
-  const homePath = rel + "index.html";
-  const navLink = (cat) =>
-    `<a href="${rel}${cat}/index.html"${activeCat === cat ? ' class="active"' : ""}>${cat}</a>`;
-  const layout = aside
-    ? `<div class="layout">
-<aside>
-${aside}
-</aside>
-<main>
-${body}
-</main>
-</div>`
-    : `<main>
-${body}
-</main>`;
+  const aside = buildSideNav(byCat, { depth, activeCat, activeSlug });
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -130,15 +151,14 @@ ${body}
 <link rel="stylesheet" href="${cssPath}">
 </head>
 <body>
-<header>
-<a class="brand" href="${homePath}">ontodesign</a>
-<nav class="cats">
-${navLink("about")}
-${navLink("projects")}
-${navLink("log")}
-</nav>
-</header>
-${layout}
+<div class="layout">
+<aside>
+${aside}
+</aside>
+<main>
+${body}
+</main>
+</div>
 </body>
 </html>
 `;
@@ -189,31 +209,18 @@ const cleanGenerated = () => {
   emptyDir(join(siteDir, "posts"));
 };
 
-const buildAside = (siblings, idx) => {
-  const items = siblings
-    .map(
-      (p, i) =>
-        `<li${i === idx ? ' class="current"' : ""}><a href="${p.slug}.html">${escapeHtml(p.title)}</a></li>`
-    )
-    .join("\n");
-  const cat = siblings[idx].category;
+const writePost = (post, siblings, idx, byCat) => {
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const linkOrSpan = (p, label) =>
     p ? `<a href="${p.slug}.html">${label}</a>` : `<span class="disabled">${label}</span>`;
-  return `<ul class="post-list">
-${items}
-</ul>
-<p class="postnav">
-${linkOrSpan(prev, "prev")} | <a href="../${cat}/index.html">home</a> | ${linkOrSpan(next, "next")}
-</p>`;
-};
-
-const writePost = (post, siblings, idx) => {
   const body = `<article>
 <h1>${escapeHtml(post.title)}</h1>
 ${post.created ? `<p class="meta">${escapeHtml(fmtDate(post.created))} &middot; <a href="../${post.category}/index.html">${post.category}</a></p>` : ""}
 ${post.html}
+<p class="postnav">
+${linkOrSpan(prev, "prev")} | <a href="../${post.category}/index.html">home</a> | ${linkOrSpan(next, "next")}
+</p>
 </article>`;
   writeFileSync(
     join(siteDir, "posts", `${post.slug}.html`),
@@ -221,50 +228,66 @@ ${post.html}
       title: post.title,
       body,
       depth: 1,
-      aside: buildAside(siblings, idx),
+      byCat,
       activeCat: post.category,
+      activeSlug: post.slug,
     })
   );
 };
 
-const writeCategoryIndex = (cat, posts) => {
+const writeCategoryIndex = (cat, posts, byCat) => {
   const items = posts
     .map(
-      (p) =>
-        `<li><a href="../posts/${p.slug}.html">${escapeHtml(p.title)}</a>${p.created ? ` <span class="meta">${escapeHtml(fmtDate(p.created))}</span>` : ""}</li>`
+      (p) => `<article class="preview">
+<h2><a href="../posts/${p.slug}.html">${escapeHtml(p.title)}</a></h2>
+${p.created ? `<p class="meta">${escapeHtml(fmtDate(p.created))}</p>` : ""}
+<p>${escapeHtml(excerpt(p.html))}</p>
+<p class="more"><a href="../posts/${p.slug}.html">more &rarr;</a></p>
+</article>`
     )
     .join("\n");
   const body = `<h1>${cat}</h1>
-<ul class="post-list">
-${items || "<li><em>nothing here yet</em></li>"}
-</ul>`;
+${items || "<p><em>nothing here yet</em></p>"}`;
   writeFileSync(
     join(siteDir, cat, "index.html"),
-    page({ title: cat, body, depth: 1, activeCat: cat })
+    page({ title: cat, body, depth: 1, byCat, activeCat: cat })
   );
 };
 
-const writeHome = (allByCat) => {
-  const sections = categories
-    .map((cat) => {
-      const recent = allByCat[cat].slice(0, 5);
-      const items = recent
-        .map(
-          (p) =>
-            `<li><a href="posts/${p.slug}.html">${escapeHtml(p.title)}</a>${p.created ? ` <span class="meta">${escapeHtml(fmtDate(p.created))}</span>` : ""}</li>`
-        )
-        .join("\n");
-      return `<section>
-<h2><a href="${cat}/index.html">${cat}</a></h2>
-<ul class="post-list">
-${items || "<li><em>nothing here yet</em></li>"}
-</ul>
-</section>`;
-    })
+const writeHome = (byCat) => {
+  const rawAbout = byCat.about[0]?.html ?? "<p><em>no about yet</em></p>";
+  const aboutHtml = rawAbout.replace(/(\bsrc=)"_assets\//g, '$1"posts/_assets/');
+  const recent = [...byCat.log, ...byCat.projects]
+    .sort((a, b) => fmtDate(b.created).localeCompare(fmtDate(a.created)))
+    .slice(0, 10);
+  const recentItems = recent
+    .map(
+      (p) => `<article class="preview">
+<h2><a href="posts/${p.slug}.html">${escapeHtml(p.title)}</a></h2>
+${p.created ? `<p class="meta">${escapeHtml(fmtDate(p.created))} &middot; ${p.category}</p>` : ""}
+<p>${escapeHtml(excerpt(p.html))}</p>
+<p class="more"><a href="posts/${p.slug}.html">more &rarr;</a></p>
+</article>`
+    )
     .join("\n");
-  const body = `<h1>ontodesign</h1>
-${sections}`;
-  writeFileSync(join(siteDir, "index.html"), page({ title: "ontodesign", body, depth: 0 }));
+  const body = `<article class="about">
+${aboutHtml}
+</article>
+<section class="recent">
+<h2>recent</h2>
+${recentItems || "<p><em>nothing here yet</em></p>"}
+</section>`;
+  writeFileSync(
+    join(siteDir, "index.html"),
+    page({
+      title: "ontodesign",
+      body,
+      depth: 0,
+      byCat,
+      activeCat: "about",
+      activeSlug: byCat.about[0]?.slug,
+    })
+  );
 };
 
 const main = () => {
@@ -272,12 +295,14 @@ const main = () => {
   const imageIndex = buildImageIndex();
   console.log(`indexed ${imageIndex.byRelPath.size} image(s) in vault`);
   const byCat = {};
+  for (const cat of categories) byCat[cat] = collectPosts(cat, imageIndex);
+  if (byCat.about.length === 1) {
+    aboutLinkTarget = `posts/${byCat.about[0].slug}.html`;
+  }
   for (const cat of categories) {
-    const posts = collectPosts(cat, imageIndex);
-    byCat[cat] = posts;
-    posts.forEach((p, i) => writePost(p, posts, i));
-    writeCategoryIndex(cat, posts);
-    console.log(`${cat}: ${posts.length} post(s)`);
+    byCat[cat].forEach((p, i) => writePost(p, byCat[cat], i, byCat));
+    writeCategoryIndex(cat, byCat[cat], byCat);
+    console.log(`${cat}: ${byCat[cat].length} post(s)`);
   }
   writeHome(byCat);
   console.log("done.");
