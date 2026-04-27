@@ -1,0 +1,24 @@
+# Obsidian local state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/*/data.json
+.obsidian/hotkeys.json
+
+# Private notes — never ship
+journal/
+reference/
+threads/
+_templates/
+projects/
+.trash/
+
+# Unpublished writing
+writing/drafts/
+writing/fragments/
+writing/ready/
+
+# Build / OS
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini

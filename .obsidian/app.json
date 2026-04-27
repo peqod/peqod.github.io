@@ -1,0 +1,14 @@
+{
+  "interfaceFontSize": 14,
+  "showLineNumber": true,
+  "strictLineBreaks": false,
+  "readableLineLength": true,
+  "defaultViewMode": "source",
+  "livePreview": true,
+  "attachmentFolderPath": "reference/attachments",
+  "newFileLocation": "_inbox",
+  "newLinkFormat": "shortest",
+  "tabSize": 2,
+  "showUnsupportedFiles": true,
+  "promptDelete": false
+}
