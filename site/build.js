@@ -295,6 +295,7 @@ const main = () => {
   if (!existsSync(siteDir)) mkdirSync(siteDir, { recursive: true });
   cleanGenerated();
   copyFileSync(join(here, "styles.css"), join(siteDir, "styles.css"));
+  writeFileSync(join(siteDir, ".nojekyll"), "");
   const imageIndex = buildImageIndex();
   console.log(`indexed ${imageIndex.byRelPath.size} image(s) in vault`);
   const byCat = {};
