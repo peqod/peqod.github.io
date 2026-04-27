@@ -15,8 +15,6 @@ Currently I am [building tosee](https://www.tosee.art/) and taking part in build
 
 Previously I've been building things like this [web3 gaming platform](https://www.forbes.pl/biznes/jak-zarabiac-na-graniu-w-gry-przemyslaw-wierzbicki-i-stanislaw-frelek-z-insert-stonks/gvypm4k). 
 
-(*in a while I plan to delve at least knee deep into this fascinating project.*)
-
 Before the pandemy I've had a chance  to be a part of the amazing teams that made migration possible [while Starwood was acquired by Marriott.](https://www.forbes.com/sites/geoffwhitmore/2018/04/18/details-surrounding-the-marriott-starwood-merger/)
 
 Even before that I worked for Agora Publishing and a postproduction company [Lightcraft](https://lightcraft.pl/) as a CG Generalist.
