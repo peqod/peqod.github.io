@@ -1,12 +1,13 @@
 ---
 title: Petent GDD
-created: 2020-07-09
+created: 2016-07-09
 status: published
 threads:
   - making-and-design
 ---
 
 # **PETENT**
+Game idea lingering between the daily life and execution. Petent is in the making from 2016 - [there is even a trailer!](https://www.youtube.com/watch?v=xEVpA-XA71E)
 
 GDD v0.3
 Game Design Document
