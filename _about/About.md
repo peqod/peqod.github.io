@@ -23,10 +23,7 @@ I've also extensively "freelanced".
 
 This led me to places I could never dream of. 
 While doing many *seemingly unrelated* things. 
-Like carpentry, fittings, kitchen design, illustrations, print, drawings, game design, painting and some writing. [I play on electric bass too](https://www.youtube.com/watch?v=9_j8j5AfFJ0) , made [music video](https://www.youtube.com/watch?v=Mct2XcsRjyg&list=RDMct2XcsRjyg&start_radio=1), [tv skits](https://www.youtube.com/watch?v=aSmq4N3Zp1E), and [tumblr ](https://zorandom.tumblr.com/archive/2009/7)before it was cool,
-
-btw: I made some things
-
+Like carpentry, fittings, kitchen design, illustrations, print, drawings, game design, painting and some writing. [I play on electric bass too](https://www.youtube.com/watch?v=9_j8j5AfFJ0) , made [music video](https://www.youtube.com/watch?v=Mct2XcsRjyg&list=RDMct2XcsRjyg&start_radio=1), [tv skits](https://www.youtube.com/watch?v=aSmq4N3Zp1E), and [tumblr ](https://zorandom.tumblr.com/archive/2009/7)before it was cool.
 
 I do not have one resume.
 
