@@ -5,12 +5,9 @@ status: published
 threads:
   - making-and-design
 ---
-
-# **PETENT**
-Game idea lingering between the daily life and execution. Petent is in the making from 2016 - [there is even a trailer!](https://www.youtube.com/watch?v=xEVpA-XA71E)
-
-GDD v0.3
-Game Design Document
+Game idea lingering between the daily life and execution limbo. 
+Petent is in the making from 2016 - [there is even a trailer!](https://www.youtube.com/watch?v=xEVpA-XA71E) 
+Below is a loose GDD doc made couple of years ago..
 # Theme / Setting / Genre
 
 **Theme:** Post Soviet, SlavCore, Dystopia.
@@ -45,7 +42,7 @@ Game Design Document
   * Upstairs Neighbor \- He often looks out through his window. He sees a lot of what’s been going on. Perhaps befriending him can help you find things?  
   * The Whore \- She sometimes stands in random places waiting for love. 
 
-![][image1]
+![[vault/petent-image01.png]]
 
 *One of locations, front of the blockhouse. As seen in the Trailer.*
 
@@ -114,9 +111,9 @@ Objects in game have three possible interactions:
 
 As shown in mockups
 
-![][image2]
+![[vault/PetentUI001.gif]]
 
-![][image3]
+![[vault/PetentUI002.gif]]
 
 # Storyline and immersion
 
@@ -128,25 +125,25 @@ As mentioned above, Tremck consist of multiple locations and is set in a stylise
 
 Plot suggests that the player should go to TiT (Social Security Company) and claim his retirement benefits by completing a series of “arcade puzzles” in the mazes of TiT office. Said puzzles consist of:
 
-![][image4]
+![[vault/petent-image04.png]]
 
 * **The Line:** Isometric side scrolling view, Player needs to navigate a corridor to reach in time particular doors or window in the TiT Office. Destroying things along the way diminishes the reward and time.
 
-![][image5]
+![[vault/petent-image05.png]]
 
 * **The Stamps:** Player is tasked with collecting proper stamps and papers from various offices. Open maze, standard topdown view, time limit \- office closes soon. Damage is accounted for.
 
-![][image6]
+![[vault/petent-image06.png]]
 
-![][image7]
+![[vault/petent-image07.png]]
 
-![][image8]
+![[vault/petent-image08.png]]
 
 *Stamp Game as seen in the mockup build.* 
 
 * **Word Game:** Player needs to arrange the words in order. Bon Ton goes a long way. 
 
-![][image9]
+![[vault/petent-image09.png]]
 
 *Word Game  prototype as seen in the Trailer*
 
@@ -179,12 +176,12 @@ As mentioned above \- he can collect litter and sell it in the facility. He can 
 
 1. Day fades from black with the Raban Alarm Clock. Raban Alarm Clock has a dialogue with four buttons \- radio or buzzer alarm \- Whether you choose, it will start the day. You need to select to turn it off or on to turn it on. Turning it on for the second time defaults to the radio.. Game comes with a radio station that sports a good deal of terrible music and announcements.
 
-![][image10]
+![[vault/petent-image10.png]]
 
 *The lookdev view of the dwelling loop*
 
 2. You have multiple choices here. You can go to the dresser and select your clothes for example.  
-   ![][image11]
+   ![[vault/petent-image11.png]]
 
    *Prototype of the dressing UI*
 
@@ -192,7 +189,7 @@ As mentioned above \- he can collect litter and sell it in the facility. He can 
 
 3. You can read books on the shelf (contains a full version of Dziady in German language; War and Peace, photo albums of dubious quality, a Game Manual called “the Great Book of Drudgery” etc.)
 
-![][image12]
+![[vault/petent-image12.png]]
 
 *We are serious.*
 
@@ -212,7 +209,7 @@ As mentioned above \- he can collect litter and sell it in the facility. He can 
 6. Player decides to sell the trash. He then decides to take the bus back to the blocks. After paying a small fee the Player fast travels back.  
 7. On spot the Player sees one of chavs spraying the wall.  
    1. If the Player steps into the view cone of the chav, he becomes aggressive and starts the chase.  
-      ![][image13]
+      ![[vault/petent-image13.png]]
 
    2. If the Player goes out of the view, he passes unnoticed and can go home in order to rest safely.
 
