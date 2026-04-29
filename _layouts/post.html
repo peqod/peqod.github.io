@@ -1,0 +1,20 @@
+---
+layout: default
+---
+{% assign siblings = site[page.category] | sort: 'created' | reverse %}
+{% assign idx = -1 %}
+{% for p in siblings %}{% if p.url == page.url %}{% assign idx = forloop.index0 %}{% endif %}{% endfor %}
+{% assign prev = nil %}
+{% assign next = nil %}
+{% assign prev_idx = idx | minus: 1 %}
+{% assign next_idx = idx | plus: 1 %}
+{% if idx > 0 %}{% assign prev = siblings[prev_idx] %}{% endif %}
+{% if next_idx < siblings.size %}{% assign next = siblings[next_idx] %}{% endif %}
+<article>
+<h1>{{ page.title | escape }}</h1>
+{% if page.created %}<p class="meta">{{ page.created | date: "%Y-%m-%d" }} &middot; <a href="{{ '/' | append: page.category | append: '/index.html' | relative_url }}">{{ page.category }}</a></p>{% endif %}
+{{ content }}
+<p class="postnav">
+{% if prev %}<a href="{{ prev.url | relative_url }}">prev</a>{% else %}<span class="disabled">prev</span>{% endif %} | <a href="{{ '/' | append: page.category | append: '/index.html' | relative_url }}">home</a> | {% if next %}<a href="{{ next.url | relative_url }}">next</a>{% else %}<span class="disabled">next</span>{% endif %}
+</p>
+</article>

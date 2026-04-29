@@ -1,0 +1,65 @@
+title: ontodesign
+url: ""
+baseurl: ""
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  smart_quotes: ["apos", "apos", "quot", "quot"]
+
+permalink: /posts/:slug.html
+
+collections:
+  log:
+    output: true
+    permalink: /posts/:slug.html
+  projects:
+    output: true
+    permalink: /posts/:slug.html
+  about:
+    output: true
+    permalink: /posts/:slug.html
+
+defaults:
+  - scope:
+      path: ""
+      type: log
+    values:
+      layout: post
+      category: log
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: post
+      category: projects
+  - scope:
+      path: ""
+      type: about
+    values:
+      layout: post
+      category: about
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - node_modules/
+  - .obsidian/
+  - .trash/
+  - journal/
+  - reference/
+  - threads/
+  - _templates/
+  - projects/
+  - writing/
+  - vault/
+  - site/
+  - docs/
+  - README.md
+  - image1.md
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag

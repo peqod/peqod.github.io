@@ -22,3 +22,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+vendor/

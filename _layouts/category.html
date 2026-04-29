@@ -1,0 +1,12 @@
+---
+layout: default
+---
+{% assign posts = site[page.collection] | sort: 'created' | reverse %}
+<h1>{{ page.title }}</h1>
+{% if posts.size == 0 %}
+<p><em>nothing here yet</em></p>
+{% else %}
+{% for p in posts %}
+{% include post_preview.html post=p %}
+{% endfor %}
+{% endif %}

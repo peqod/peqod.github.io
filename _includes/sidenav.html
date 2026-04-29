@@ -1,0 +1,17 @@
+<a class="brand" href="{{ '/' | relative_url }}">ontodesign</a>
+{% assign nav_cats = "projects,log" | split: "," %}
+{% for cat in nav_cats %}
+{% assign posts = site[cat] | sort: 'created' | reverse %}
+<details{% if page.category == cat %} open{% endif %}>
+<summary><a href="{{ '/' | append: cat | append: '/index.html' | relative_url }}">{{ cat }}</a></summary>
+<ul>
+{% if posts.size == 0 %}
+<li><em>nothing here yet</em></li>
+{% else %}
+{% for p in posts %}
+<li{% if p.url == page.url %} class="current"{% endif %}><a href="{{ p.url | relative_url }}">{{ p.title | escape }}</a></li>
+{% endfor %}
+{% endif %}
+</ul>
+</details>
+{% endfor %}

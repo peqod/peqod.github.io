@@ -1,0 +1,8 @@
+{% assign thumb = include.post.content | first_image_src %}
+<article class="preview{% if thumb %} preview--with-thumb{% endif %}">
+{% if thumb %}<a class="preview-thumb" href="{{ include.post.url | relative_url }}"><img src="{{ thumb }}" alt=""></a>{% endif %}
+<h2><a href="{{ include.post.url | relative_url }}">{{ include.post.title | escape }}</a></h2>
+{% if include.post.created %}<p class="meta">{{ include.post.created | date: "%Y-%m-%d" }}{% if include.show_category %} &middot; {{ include.post.category }}{% endif %}</p>{% endif %}
+<p class="preview-excerpt">{{ include.post.excerpt | strip_first_image | strip_html | truncatewords: 60 | strip_newlines }}</p>
+<p class="more"><a href="{{ include.post.url | relative_url }}">more &rarr;</a></p>
+</article>

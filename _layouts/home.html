@@ -1,0 +1,21 @@
+---
+layout: default
+---
+{% assign about = site.about | sort: 'created' | reverse | first %}
+{% assign log_posts = site.log | sort: 'created' | reverse %}
+{% assign project_posts = site.projects | sort: 'created' | reverse %}
+{% assign combined = log_posts | concat: project_posts | sort: 'created' | reverse %}
+{% assign recent = combined | slice: 0, 10 %}
+<article class="about">
+{% if about %}{{ about.content }}{% else %}<p><em>no about yet</em></p>{% endif %}
+</article>
+<section class="recent">
+<h2>recent</h2>
+{% if recent.size == 0 %}
+<p><em>nothing here yet</em></p>
+{% else %}
+{% for p in recent %}
+{% include post_preview.html post=p show_category=true %}
+{% endfor %}
+{% endif %}
+</section>
