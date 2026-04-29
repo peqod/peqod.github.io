@@ -15,7 +15,7 @@ layout: default
 <p><em>nothing here yet</em></p>
 {% else %}
 {% for p in recent %}
-{% include post_preview.html post=p show_category=true %}
+{% include post_preview.html post=p show_category=true title_above_thumb=true %}
 {% endfor %}
 {% endif %}
 </section>
