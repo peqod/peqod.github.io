@@ -1,4 +1,9 @@
+<div class="brand-row">
 <a class="brand" href="{{ '/' | relative_url }}">ontodesign</a>
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+<span class="theme-toggle-icon" aria-hidden="true"></span>
+</button>
+</div>
 {% assign nav_cats = "projects,log" | split: "," %}
 {% for cat in nav_cats %}
 {% assign posts = site[cat] | sort: 'created' | reverse %}
@@ -15,6 +20,4 @@
 </ul>
 </details>
 {% endfor %}
-<details{% if page.url == '/links/' %} open{% endif %}>
-<summary><a href="{{ '/links/' | relative_url }}">links</a></summary>
-</details>
+<a class="nav-link{% if page.url == '/links/' %} current{% endif %}" href="{{ '/links/' | relative_url }}">links</a>

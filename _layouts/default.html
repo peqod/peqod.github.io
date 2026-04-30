@@ -12,5 +12,41 @@
 {{ content }}
 </main>
 </div>
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    var mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function getPref() {
+      try { return localStorage.getItem('themePref'); } catch (e) { return null; }
+    }
+    function setPref(v) {
+      try {
+        if (v === null) localStorage.removeItem('themePref');
+        else localStorage.setItem('themePref', v);
+      } catch (e) {}
+    }
+    function apply(theme) {
+      root.setAttribute('data-theme', theme);
+    }
+    function current() {
+      return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        setPref(next);
+        apply(next);
+      });
+    }
+
+    mql.addEventListener('change', function (e) {
+      if (getPref()) return;
+      apply(e.matches ? 'dark' : 'light');
+    });
+  })();
+</script>
 </body>
 </html>

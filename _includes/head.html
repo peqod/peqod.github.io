@@ -1,6 +1,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% if page.title and page.url != "/index.html" %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+<script>
+  (function () {
+    try {
+      var pref = localStorage.getItem('themePref');
+      var resolved = pref === 'light' || pref === 'dark'
+        ? pref
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 <link rel="stylesheet" href="{{ '/assets/styles.css' | relative_url }}">
 {% feed_meta %}
 {% seo title=false %}
