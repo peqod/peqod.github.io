@@ -15,3 +15,6 @@
 </ul>
 </details>
 {% endfor %}
+<details{% if page.url == '/links/' %} open{% endif %}>
+<summary><a href="{{ '/links/' | relative_url }}">links</a></summary>
+</details>
