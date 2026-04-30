@@ -10,6 +10,7 @@ threads:
 My name is Victor.
 
 I am a designer generalist with a strong portfolio career.
+This page is a collection of the stuff I do with things.
 
 Currently I am [building tosee](https://www.tosee.art/) and taking part in building sota image generation models for [[nda]].
 
@@ -28,5 +29,3 @@ Like carpentry, fittings, kitchen design, illustrations, print, drawings, game d
 I do not have one resume.
 
 But if you'd like one, then feel free to contact me at allthingsdesignconsidered{at}gmail.com or add me on [linkedin](www.linkedin.com/in/mariusz-kaczmarek-03b188a0 ) or [github](https://github.com/peqod) and allow me to know how can I help you.
-
-BTW: this page is a hodgepodge 
