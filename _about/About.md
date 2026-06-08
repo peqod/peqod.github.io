@@ -13,7 +13,7 @@ I am a designer generalist with a strong portfolio career.
 
 This page is a collection of the stuff I do with things.
 
-Currently I am [building tosee](https://www.tosee.art/) and taking part in building sota image generation models for [[nda]].
+Currently I am [building tosee](https://www.tosee.art/) and taking part in building sota image generation models for NDA.
 
 Previously I've been building things like this [web3 gaming platform](https://www.forbes.pl/biznes/jak-zarabiac-na-graniu-w-gry-przemyslaw-wierzbicki-i-stanislaw-frelek-z-insert-stonks/gvypm4k). 
 
