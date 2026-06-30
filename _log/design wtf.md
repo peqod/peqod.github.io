@@ -4,7 +4,6 @@ threads:
 language: en
 polish-voice: false
 created: 2025-07-18
-published:
 title: designWTF
 ---
 ![[wtfdesign.gif]]

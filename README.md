@@ -54,3 +54,4 @@ GitHub Actions builds the site on every push to `main` and deploys to GitHub Pag
 Tracked: `_log/`, `_projects/`, `_about/`, `_layouts/`, `_includes/`, `_plugins/`, `assets/`, top-level pages, `_config.yml`, `Gemfile`, `Gemfile.lock`, `.obsidian/` core configs, `.gitignore`, `README.md`.
 
 Ignored (see `.gitignore`): `journal/`, `reference/`, `threads/`, `_templates/`, `projects/`, `writing/drafts/`, `writing/fragments/`, `writing/ready/`, Obsidian local state, `_site/`, `.jekyll-cache/`, `vendor/`.
+
