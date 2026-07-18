@@ -1,6 +1,8 @@
-# ontodesign
+# madethis.blog
 
-Obsidian vault + Jekyll site in one repo. Vault opens at the repo root. The site renders posts in the `_log/`, `_projects/`, and `_about/` collections.
+Obsidian vault + Jekyll blog in one repo. Vault opens at the repo root. The site renders writing from `_log/`, `_projects/`, and `_about/`, with the older professional archive in `_work/`.
+
+The current portfolio and resume live separately at [madethis.online](https://madethis.online/). This repository owns the writing and project archive at [madethis.blog](https://madethis.blog/).
 
 ## Write a post
 
@@ -9,6 +11,7 @@ Drop a `.md` file into one of:
 - `_about/`
 - `_projects/`
 - `_log/`
+- `_work/`
 
 Frontmatter example:
 
@@ -47,11 +50,10 @@ Output goes to `_site/`. `jekyll serve` runs a local server at `http://localhost
 
 ## Deploy
 
-GitHub Actions builds the site on every push to `main` and deploys to GitHub Pages (`.github/workflows/pages.yml`). The repo Pages source must be set to "GitHub Actions" in repo Settings → Pages.
+GitHub Actions builds the site on every push to `main` and deploys to GitHub Pages (`.github/workflows/pages.yml`). The repo Pages source must be set to "GitHub Actions" and the custom domain to `madethis.blog` in repo Settings → Pages.
 
 ## What's tracked vs ignored
 
-Tracked: `_log/`, `_projects/`, `_about/`, `_layouts/`, `_includes/`, `_plugins/`, `assets/`, top-level pages, `_config.yml`, `Gemfile`, `Gemfile.lock`, `.obsidian/` core configs, `.gitignore`, `README.md`.
+Tracked: `_log/`, `_projects/`, `_work/`, `_about/`, `_layouts/`, `_includes/`, `_plugins/`, `assets/`, top-level pages, `_config.yml`, `Gemfile`, `Gemfile.lock`, `.obsidian/` core configs, `.gitignore`, `README.md`.
 
 Ignored (see `.gitignore`): `journal/`, `reference/`, `threads/`, `_templates/`, `projects/`, `writing/drafts/`, `writing/fragments/`, `writing/ready/`, Obsidian local state, `_site/`, `.jekyll-cache/`, `vendor/`.
-

@@ -1,0 +1,18 @@
+---
+layout: default
+title: work
+category: work
+main_class: wide
+permalink: /work/index.html
+---
+{% assign posts = site.work | sort: 'order' %}
+<h1>work</h1>
+{% if posts.size == 0 %}
+<p><em>nothing here yet</em></p>
+{% else %}
+<div class="work-grid">
+{% for p in posts %}
+{% include work_card.html post=p %}
+{% endfor %}
+</div>
+{% endif %}

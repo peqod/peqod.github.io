@@ -1,6 +1,10 @@
-title: ontodesign
-url: ""
+title: madethis.blog
+description: Notes on making, design, systems, and the odd detour by Wiktor Kaczmarek.
+url: https://madethis.blog
 baseurl: ""
+author:
+  name: Wiktor Kaczmarek
+  email: allthingsdesignconsidered@gmail.com
 
 markdown: kramdown
 kramdown:
@@ -19,6 +23,9 @@ collections:
   about:
     output: true
     permalink: /posts/:slug.html
+  work:
+    output: true
+    permalink: /work/:slug.html
 
 defaults:
   - scope:
@@ -39,6 +46,13 @@ defaults:
     values:
       layout: post
       category: about
+  - scope:
+      path: ""
+      type: work
+    values:
+      layout: work
+      category: work
+      main_class: wide
 
 exclude:
   - Gemfile
@@ -52,12 +66,15 @@ exclude:
   - threads/
   - _templates/
   - projects/
+  - Clippings/
+  - Books To Read/
   - writing/
   - vault/
   - site/
   - docs/
   - README.md
   - image1.md
+  - assets/cv_kaczmarek.pdf
 
 plugins:
   - jekyll-feed

@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<article class="work">
+<header class="work-header">
+<h1>{{ page.title | escape }}</h1>
+{% if page.outcome %}<p class="work-outcome">{{ page.outcome }}</p>{% endif %}
+<dl class="work-meta">
+{% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+{% if page.client %}<div><dt>Client</dt><dd>{{ page.client }}</dd></div>{% endif %}
+{% if page.year %}<div><dt>Year</dt><dd>{{ page.year }}</dd></div>{% endif %}
+{% if page.tools %}<div><dt>Tools</dt><dd>{{ page.tools }}</dd></div>{% endif %}
+</dl>
+</header>
+{{ content }}
+<p class="postnav"><a href="{{ '/work/index.html' | relative_url }}">&larr; all work</a></p>
+</article>

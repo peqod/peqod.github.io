@@ -2,15 +2,24 @@
 layout: default
 ---
 {% assign about = site.about | sort: 'created' | reverse | first %}
+{% assign work_posts = site.work | sort: 'order' %}
 {% assign log_posts = site.log | sort: 'created' | reverse %}
 {% assign project_posts = site.projects | sort: 'created' | reverse %}
 {% assign combined = log_posts | concat: project_posts | sort: 'created' | reverse %}
-{% assign recent = combined | slice: 0, 10 %}
-<article class="about">
-{% if about %}{{ about.content }}{% else %}<p><em>no about yet</em></p>{% endif %}
-</article>
+{% assign recent = combined | slice: 0, 7 %}
+<section class="hero">
+<p class="hero-kicker">Wiktor Kaczmarek</p>
+<h1>Notes on making, systems, and the odd detour.</h1>
+<p class="hero-line">A working blog about design, technology, culture, and whatever connects them.</p>
+<p class="hero-links">
+<a href="https://madethis.online/">portfolio ↗</a>
+<a href="mailto:allthingsdesignconsidered@gmail.com">email</a>
+<a href="https://github.com/peqod">github</a>
+<a href="https://madethis.online/resume/">resume ↗</a>
+</p>
+</section>
 <section class="recent">
-<h2>recent</h2>
+<h2>recent writing</h2>
 {% if recent.size == 0 %}
 <p><em>nothing here yet</em></p>
 {% else %}
@@ -18,4 +27,27 @@ layout: default
 {% include post_preview.html post=p show_category=true title_above_thumb=true %}
 {% endfor %}
 {% endif %}
+</section>
+<section class="home-projects">
+<h2>projects</h2>
+<p>Longer-running work, prototypes, and documents live in the <a href="{{ '/projects/index.html' | relative_url }}">projects archive</a>.</p>
+</section>
+<section class="work-index">
+<div class="home-section-heading">
+<h2>work archive</h2>
+<p>For current selected work, visit <a href="https://madethis.online/">madethis.online ↗</a>.</p>
+</div>
+{% if work_posts.size == 0 %}
+<p><em>nothing here yet</em></p>
+{% else %}
+<div class="work-grid">
+{% for p in work_posts %}
+{% include work_card.html post=p %}
+{% endfor %}
+</div>
+{% endif %}
+</section>
+<section class="home-about">
+<h2>about</h2>
+<p>Broadcast, VFX, brand systems, web3, and now browser-native 3D for cultural heritage. The long version, with detours through carpentry and bass guitar, lives on the <a href="{% if about %}{{ about.url | relative_url }}{% else %}{{ '/about/index.html' | relative_url }}{% endif %}">about page</a>.</p>
 </section>

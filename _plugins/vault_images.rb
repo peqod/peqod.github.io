@@ -77,7 +77,7 @@ def rewrite_img_srcs(html, index, copies, slug, doc_dir)
 end
 
 Jekyll::Hooks.register :documents, :post_render do |doc|
-  next unless doc.collection && %w[log projects about].include?(doc.collection.label)
+  next unless doc.collection && %w[log projects about work].include?(doc.collection.label)
   index = doc.site.config["_vault_image_index"]
   copies = doc.site.config["_vault_image_copies"]
   slug = File.basename(doc.url, ".html")

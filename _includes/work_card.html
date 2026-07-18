@@ -1,0 +1,6 @@
+{% assign thumb = include.post.content | first_image_src %}
+<a class="work-card" href="{{ include.post.url | relative_url }}">
+<span class="work-card-thumb">{% if thumb %}<img src="{{ thumb }}" alt="">{% endif %}</span>
+<span class="work-card-title">{{ include.post.title | escape }}</span>
+{% if include.post.outcome %}<span class="work-card-outcome">{{ include.post.outcome }}</span>{% endif %}
+</a>

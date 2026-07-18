@@ -7,7 +7,7 @@ threads:
 ---
 ![[AboutHeader.gif]]
 
-My name is Victor.
+My name is Wiktor.
 
 I am a designer generalist with a strong portfolio career.
 
@@ -27,6 +27,6 @@ This led me to places I could never dream of.
 While doing many *seemingly unrelated* things. 
 Like carpentry, fittings, kitchen design, illustrations, print, drawings, game design, painting and some writing. [I play on electric bass too](https://www.youtube.com/watch?v=9_j8j5AfFJ0) , made [music video](https://www.youtube.com/watch?v=Mct2XcsRjyg&list=RDMct2XcsRjyg&start_radio=1), [tv skits](https://www.youtube.com/watch?v=aSmq4N3Zp1E), and [tumblr ](https://zorandom.tumblr.com/archive/2009/7)before it was cool.
 
-I do not have one resume.
+Selected work and my current resume live at [madethis.online](https://madethis.online/).
 
-But if you'd like one, then feel free to contact me at allthingsdesignconsidered{at}gmail.com or add me on [linkedin](www.linkedin.com/in/mariusz-kaczmarek-03b188a0 ) or [github](https://github.com/peqod) and allow me to know how can I help you.
+You can contact me at [allthingsdesignconsidered@gmail.com](mailto:allthingsdesignconsidered@gmail.com) or find the code behind current projects on [GitHub](https://github.com/peqod).
