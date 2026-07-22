@@ -6,6 +6,7 @@ language: pl
 polish-voice: true
 created: 2022-07-01
 ---
+![[Pasted image 20260723000458.png]]
 
 Jak przyjdzie co do czego, to z daleka, przez radio, 
 z ciepłego gabinetu za oceanem padnie rozkaz. 
